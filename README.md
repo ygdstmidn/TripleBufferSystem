@@ -14,8 +14,10 @@ see [LICENSE](./LICENSE)
 
 ## 使い方
 
-基本的にRingBufferと同じ
-[RingBuffer](./RingBuffer/README.md)
+基本的にRingBufferと同じ\
+[RingBuffer](./RingBuffer/README.md)\
+[RingBuffer(GitHub)](https://github.com/ygdstmidn/RingBuffer)\
+使用例 : [TripleBufferSystemExample(GitHub)](https://github.com/ygdstmidn/TripleBufferSystemExample)
 
 ### 初期化
 ```c
@@ -125,7 +127,7 @@ tbs.destroy();
 ```
 クラス\
 使い方は同じ\
-こっちのほうが記述量が減っていいかんじ
+こっちのほうが安全性が高くて記述量が減っていいかんじ
 
 ## memo
 ```bash
