@@ -109,6 +109,24 @@ TripleBufferSystem_Destroy(&tbs);
 ```
 メモリは開放すること
 
+## TripleBufferSystemClass
+```c++
+TripleBufferSystemClass tbs(256);
+tbs.init();
+tbs.setFunc(beforeSwap, afterSwap);
+tbs.put(data);
+*TripleBufferSystem_NextWriteBuffer(tbs) = data;
+tbs.headMove();
+const size_t dataSize = tbs.get(dataBuffer, BufferSize);
+tbs.swap();
+const int transferState = tbs.transfer();
+const size_t dataSize = tbs.read(dataBuffer, BufferSize, &readError);
+tbs.destroy();
+```
+クラス\
+使い方は同じ\
+こっちのほうが記述量が減っていいかんじ
+
 ## memo
 ```bash
 gcc a.c TripleBufferSystem.c RingBuffer/RingBuffer.c
