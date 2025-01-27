@@ -8,12 +8,12 @@ typedef struct
     RingBuffer writeBuffer[2];
     RingBuffer readBuffer;
     unsigned int writeBufferIndex; // 0 or 1
-    void (*enable_irq)(void);
-    void (*disable_irq)(void);
+    void (*beforeSwap)(void);
+    void (*afterSwap)(void);
 } TripleBufferSystem;
 
 int TripleBufferSystem_Init(TripleBufferSystem *tbs, unsigned int size);
-void TripleBufferSystem_set_irq(TripleBufferSystem *tbs, void (*enable_irq)(void), void (*disable_irq)(void));
+void TripleBufferSystem_setFunc(TripleBufferSystem *tbs, void (*beforeSwap)(void), void (*afterSwap)(void));
 void TripleBufferSystem_Destroy(TripleBufferSystem *tbs);
 void TripleBufferSystem_Swap(TripleBufferSystem *tbs);
 int TripleBufferSystem_Transfer(TripleBufferSystem *tbs);

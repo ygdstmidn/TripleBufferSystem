@@ -3,8 +3,8 @@
 int TripleBufferSystem_Init(TripleBufferSystem *tbs, const unsigned int size)
 {
     tbs->writeBufferIndex = 0;
-    tbs->enable_irq = NULL;
-    tbs->disable_irq = NULL;
+    tbs->beforeSwap = NULL;
+    tbs->afterSwap = NULL;
     int ErrorCheck = 0;
     ErrorCheck |= RingBuffer_Init(&tbs->writeBuffer[0], size);
     ErrorCheck |= RingBuffer_Init(&tbs->writeBuffer[1], size);
@@ -12,10 +12,10 @@ int TripleBufferSystem_Init(TripleBufferSystem *tbs, const unsigned int size)
     return ErrorCheck;
 }
 
-void TripleBufferSystem_set_irq(TripleBufferSystem *tbs, void (*enable_irq)(void), void (*disable_irq)(void))
+void TripleBufferSystem_setFunc(TripleBufferSystem *tbs, void (*beforeSwap)(void), void (*afterSwap)(void))
 {
-    tbs->enable_irq = enable_irq;
-    tbs->disable_irq = disable_irq;
+    tbs->beforeSwap = beforeSwap;
+    tbs->afterSwap = afterSwap;
 }
 
 void TripleBufferSystem_Destroy(TripleBufferSystem *tbs)
@@ -78,9 +78,16 @@ size_t TripleBufferSystem_Read(TripleBufferSystem *tbs, unsigned char *buffer, c
     }
     else if (transferError == 0) // 全部移すことができた→swap
     {
-        tbs->disable_irq();
+        if (tbs->beforeSwap != NULL)
+
+        {
+            tbs->beforeSwap();
+        }
         TripleBufferSystem_Swap(tbs);
-        tbs->enable_irq();
+        if (tbs->afterSwap != NULL)
+        {
+            tbs->afterSwap();
+        }
         transferError = TripleBufferSystem_Transfer(tbs); // 書き込みバッファから読み込みバッファに移す
         if (transferError == 1)
         {

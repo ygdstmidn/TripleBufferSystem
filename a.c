@@ -16,7 +16,7 @@ int main(void)
 {
     TripleBufferSystem tbs;
     printf("Init:%d\n", TripleBufferSystem_Init(&tbs, 10));
-    TripleBufferSystem_set_irq(&tbs, enable_irq, disable_irq);
+    TripleBufferSystem_setFunc(&tbs, disable_irq, enable_irq);
 
     // standard usage
     TripleBufferSystem_Put(&tbs, 'a');
@@ -102,6 +102,7 @@ int main(void)
     // read buffer is full
     TripleBufferSystem_Destroy(&tbs);
     TripleBufferSystem_Init(&tbs, 10);
+    TripleBufferSystem_setFunc(&tbs, disable_irq, enable_irq);
     for (int i = 0; i < 9; i++)
     {
         TripleBufferSystem_Put(&tbs, 'a' + i);

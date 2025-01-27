@@ -26,10 +26,13 @@ TripleBufferSystem_Init(&tbs, 256);
 ```
 Initしたときにmallocしてメモリ確保に失敗すると1が返ってくる．
 ```c
-TripleBufferSystem_set_irq(&tbs, enable_irq, disable_irq);
+TripleBufferSystem_setFunc(&tbs, beforeSwap, afterSwap);
+TripleBufferSystem_setFunc(&tbs, disable_irq, enable_irq);
 ```
-割り込みを有効/無効にする関数を登録する\
-※これをしないとReadを動かせない
+Swapの前後に実行する関数を登録する\
+例として，割り込みを有効/無効にする関数を登録する\
+HALで扱う場合，割り込みを有効/無効にするだけでなく，すでに存在する割り込みを中止して新しく割り込みを発生させる必要がある\
+※これをInitの後に呼び出してからReadを使うこと
 
 ### Put
 ```c
@@ -66,7 +69,7 @@ Getします\
 TripleBufferSystem_Swap(&tbs);
 ```
 書き込みバッファを入れ替えます(高速です)\
-割り込み禁止にしてから使います
+実際には，Swapしている最中にPutされるといけないので，割り込み禁止にしてから使います
 
 ### Transfer
 ```c
