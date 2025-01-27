@@ -1,4 +1,4 @@
-#if(0)
+#if (0)
 
 #include <stdio.h>
 #include "TripleBufferSystem.h"
@@ -47,45 +47,45 @@ int main(void)
     }
 
     // read function
-    for(int i = 0; i < 5; i++)//input 5
+    for (int i = 0; i < 5; i++) // input 5
     {
         TripleBufferSystem_Put(&tbs, 'g' + i);
     }
     int tbsReadError = 0;
-    tempBufferSize =TripleBufferSystem_Read(&tbs, tempBuffer, 3, &tbsReadError);// erase 3 = 2
+    tempBufferSize = TripleBufferSystem_Read(&tbs, tempBuffer, 3, &tbsReadError); // erase 3 = 2
     for (size_t i = 0; i < tempBufferSize; i++)
     {
         printf("%c\n", tempBuffer[i]);
     }
-    for(int i = 0; i < 9; i++)//input 9 = 11
+    for (int i = 0; i < 9; i++) // input 9 = 11
     {
         TripleBufferSystem_Put(&tbs, 'l' + i);
     }
-    tempBufferSize =TripleBufferSystem_Read(&tbs, tempBuffer, 3, &tbsReadError);// erase 3 = 8
+    tempBufferSize = TripleBufferSystem_Read(&tbs, tempBuffer, 3, &tbsReadError); // erase 3 = 8
     for (size_t i = 0; i < tempBufferSize; i++)
     {
         printf("%c\n", tempBuffer[i]);
     }
-    for(int i = 0; i < 9; i++)//input 9 = 17
+    for (int i = 0; i < 9; i++) // input 9 = 17
     {
         TripleBufferSystem_Put(&tbs, 'u' + i);
     }
-    tempBufferSize =TripleBufferSystem_Read(&tbs, tempBuffer, 3, &tbsReadError);// erase 3 = 14
+    tempBufferSize = TripleBufferSystem_Read(&tbs, tempBuffer, 3, &tbsReadError); // erase 3 = 14
     for (size_t i = 0; i < tempBufferSize; i++)
     {
         printf("%c\n", tempBuffer[i]);
     }
-    tempBufferSize =TripleBufferSystem_Read(&tbs, tempBuffer, 3, &tbsReadError);// erase 3 = 11//not swap
+    tempBufferSize = TripleBufferSystem_Read(&tbs, tempBuffer, 3, &tbsReadError); // erase 3 = 11//not swap
     for (size_t i = 0; i < tempBufferSize; i++)
     {
         printf("%c\n", tempBuffer[i]);
     }
-    tempBufferSize =TripleBufferSystem_Read(&tbs, tempBuffer, 10, &tbsReadError);// erase 10 = 1
+    tempBufferSize = TripleBufferSystem_Read(&tbs, tempBuffer, 10, &tbsReadError); // erase 10 = 1
     for (size_t i = 0; i < tempBufferSize; i++)
     {
         printf("%c\n", tempBuffer[i]);
     }
-    tempBufferSize =TripleBufferSystem_Read(&tbs, tempBuffer, 10, &tbsReadError);// erase 10 = 0
+    tempBufferSize = TripleBufferSystem_Read(&tbs, tempBuffer, 10, &tbsReadError); // erase 10 = 0
     for (size_t i = 0; i < tempBufferSize; i++)
     {
         printf("%c\n", tempBuffer[i]);

@@ -66,37 +66,31 @@ size_t TripleBufferSystem_Read(TripleBufferSystem *tbs, unsigned char *buffer, c
     size_t i = 0;
     int transferError;
 
-    transferError = TripleBufferSystem_Transfer(tbs);//書き込みバッファから読み込みバッファに移す
+    transferError = TripleBufferSystem_Transfer(tbs); // 書き込みバッファから読み込みバッファに移す
 
-    while (i < size && tbs->readBuffer.head != tbs->readBuffer.tail)//元々入っているぶんを取り出し
-    {
-        buffer[i++] = RingBuffer_Get(&tbs->readBuffer);
-    }
+    i += TripleBufferSystem_Get(tbs, buffer + i, size - i); // 元々入っているぶんを取り出し
 
-    transferError = TripleBufferSystem_Transfer(tbs);//書き込みバッファから読み込みバッファに移す
+    transferError = TripleBufferSystem_Transfer(tbs); // 書き込みバッファから読み込みバッファに移す
     if (transferError == 1)
     {
         *error = 1;
         return 0;
     }
-    else if (transferError == 0)//全部移すことができた→swap
+    else if (transferError == 0) // 全部移すことができた→swap
     {
         tbs->disable_irq();
         TripleBufferSystem_Swap(tbs);
         tbs->enable_irq();
-        transferError = TripleBufferSystem_Transfer(tbs);//書き込みバッファから読み込みバッファに移す
-        if(transferError == 1)
+        transferError = TripleBufferSystem_Transfer(tbs); // 書き込みバッファから読み込みバッファに移す
+        if (transferError == 1)
         {
             *error = 1;
             return 0;
         }
     }
 
-    while(i < size && tbs->readBuffer.head != tbs->readBuffer.tail)
-    {
-        buffer[i++] = RingBuffer_Get(&tbs->readBuffer);
-    }
-    if(transferError == 2)//読み込みバッファがいっぱいだった
+    i += TripleBufferSystem_Get(tbs, buffer + i, size - i);
+    if (transferError == 2) // 読み込みバッファがいっぱいだった
     {
         transferError = TripleBufferSystem_Transfer(tbs);
     }
