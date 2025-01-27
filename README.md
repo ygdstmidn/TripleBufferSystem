@@ -92,7 +92,7 @@ int readError;
 const size_t dataSize = TripleBufferSystem_Read(&tbs, dataBuffer, BufferSize, &readError);
 ```
 SwapとTransferとGetをまとめた関数\
-set_irqで登録していることが前提\
+setFuncで必要な関数を登録していることが前提\
 `dataBuffer`にデータが入ります\
 `dataSize`に読み取ったサイズが入ります\
 `readError`が
